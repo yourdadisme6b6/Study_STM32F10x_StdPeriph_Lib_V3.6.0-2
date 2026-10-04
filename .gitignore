@@ -1,0 +1,91 @@
+# ============================================================
+#  .gitignore —— 放在【仓库根目录】
+#  仓库根 = D:\Users\16548\agent-kb\projects\Study_STM32F10x_StdPeriph_Lib_V3.6.0-2\
+#
+#  为什么根目录在这里：Project.uvprojx 里引用的是 ..\..\..\Libraries\ 和
+#  ..\..\..\Utilities\ —— 只有把仓库根放在「库根」，这些相对路径才成立，
+#  clone 下来才能直接编译。
+#
+#  依据：本文件的所有规则都对照过 2026-10-04 的实际文件列表（不是通用模板）
+# ============================================================
+
+## ---------- ① ST 官方包里不要的 ----------
+# 40+ 个官方例程：实测工程【0 次】引用它 → 可安全排除
+Project/STM32F10x_StdPeriph_Examples/
+
+# ST 的 CHM 帮助文件（19MB）
+*.chm
+stm32f10x_stdperiph_lib_um.chm
+
+# ST 的网页素材
+_htmresc/
+Release_Notes.html
+Project/STM32F10x_StdPeriph_Template/Release_Notes.html
+
+## ---------- ② Template 里其他 IDE 的工程文件（只用 MDK-ARM）----------
+Project/STM32F10x_StdPeriph_Template/EWARM/
+Project/STM32F10x_StdPeriph_Template/HiTOP/
+Project/STM32F10x_StdPeriph_Template/RIDE/
+Project/STM32F10x_StdPeriph_Template/TrueSTUDIO/
+
+## ---------- ③ ⭐ Keil 编译产物（最大的一块，26MB）----------
+# ⚠️ 这个工程的输出目录 = Target 名，**不叫 Objects/**
+Project/STM32F10x_StdPeriph_Template/MDK-ARM/STM32100E-EVAL/
+# 下面两条是通用 Keil / CubeMX 布局，留着无害
+Objects/
+Listings/
+
+*.o
+*.d
+*.crf
+*.axf
+*.hex
+*.bin
+*.elf
+*.map
+*.lst
+*.lnp
+*.sct
+*.iex
+*.dep
+*.plg
+*.scvd
+*.build_log.htm
+*.htm
+*.bak
+*.Bak
+*_sct.Bak
+
+## ---------- ④ Keil 用户设置（每个人不一样，不该共享）----------
+# .uvopt / .uvoptx 存：调试器设置、断点位置、打开的文件、窗口布局
+*.uvopt
+*.uvoptx
+# .uvguix.<用户名> 存：GUI 布局（这个有 188KB，且带用户名）
+*.uvguix.*
+# 保存时的自动备份（有 364KB）
+*.saved_uv4
+# RTE 与 DebugConfig 是 µVision 从 .uvprojx 自动生成的
+Project/STM32F10x_StdPeriph_Template/MDK-ARM/RTE/
+Project/STM32F10x_StdPeriph_Template/MDK-ARM/DebugConfig/
+Project/STM32F10x_StdPeriph_Template/MDK-ARM/EventRecorderStub.scvd
+
+## ---------- ⑤ 调试器 / 编辑器 / 系统 ----------
+JLinkLog.txt
+JLinkSettings.ini
+STLinkLog.txt
+*.stlink*
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+*.swp
+*.orig
+*.rej
+*~
+
+## ---------- ⑥ ⚠️ 明确【保留】的东西（写出来防止以后误删）----------
+# Libraries/                              编译必需
+# Utilities/                              .uvprojx 引用它 84 次，删了工程会报找不到文件
+# Project/STM32F10x_StdPeriph_Template/   我的工程在这里（main.c / stm32f10x_it.c / .uvprojx）
+# Package_license.md / LICENSE.txt        ⚠️ 再分发 ST 的代码要把许可证一起带上
+# README.md / .gitignore                  本仓库自己的文件
